@@ -423,6 +423,11 @@
         padding: 40px 10px 10px 10px;
     }
 
+    .custom-file-upload {
+        margin-left: 0px;
+        font-size: 12px;
+    }
+
     .quiz-container .quiz-header .quiz-header-content .quiz-description{
         font-size: 1rem;
     }

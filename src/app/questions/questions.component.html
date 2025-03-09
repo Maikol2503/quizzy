@@ -1,10 +1,11 @@
 <div class="quizz-container" >
   <div class="question">
+    <button class="close" (click)="redirectHome()">Salir</button>
     <div *ngIf="!viewResults" class="bar-progres">
       <p>{{currentQuestionIndex}}/{{numPreguntas}}</p>
     </div>
     <div class="question-content">
-      <h3>{{ displayedQuestion?.pregunta }}</h3>
+      <h3 *ngIf="!viewResults">{{ displayedQuestion?.pregunta }}</h3>
       <div class="options">
         <button 
           
