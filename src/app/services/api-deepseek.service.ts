@@ -8,8 +8,8 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class ApiModel {
-  private readonly baseURL = environment.openRouterBaseUrl;
-  private readonly apiKey = environment.openRouterApiKey;
+  private  baseURL = environment.openRouterBaseUrl;
+  private  apiKey = environment.openRouterApiKey;
 
   constructor(private http: HttpClient) {}
 
