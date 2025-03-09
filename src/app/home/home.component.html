@@ -1,0 +1,94 @@
+<div class="quiz-container">
+
+  <header class="quiz-header">
+    <div class="quiz-header-content">
+      <div class="text-container">
+        <h1 class="quiz-title">Generador de quiz impulsado por IA</h1>
+        <p class="quiz-description">
+          En esta app podrás crear quizzes personalizados cargando tus 
+          propios textos. Puedes ingresar el contenido manualmente o cargar un archivo PDF,
+          y nuestra herramienta extraerá la información para generar preguntas automáticamente. 
+        </p>
+        <!-- <h1 class="quiz-stats">+700,000</h1>
+        <p class="quiz-subtext">Preguntas generadas el mes pasado</p> -->
+      </div>
+    </div>
+  
+  
+
+  <div class="quiz-input">
+    <div  class="quiz-input-wrapper">
+      <div  *ngIf="loading" class="loader-container">
+        <p>Generando Quiz</p>
+        <div class="icono-svg">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle fill="#FF156D" stroke="#FF156D" stroke-width="15" r="15" cx="40" cy="100"><animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.4"></animate></circle><circle fill="#FF156D" stroke="#FF156D" stroke-width="15" r="15" cx="100" cy="100"><animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.2"></animate></circle><circle fill="#FF156D" stroke="#FF156D" stroke-width="15" r="15" cx="160" cy="100"><animate attributeName="opacity" calcMode="spline" dur="2" values="1;0;1;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate></circle></svg>
+        </div>
+      </div>
+      <div class="quiz-options" *ngIf="!loading">
+        <div class="options-buttons">
+          <div class="options-buttons-wrapper">
+            <button class="option-btn" [ngClass]="{'btn-opcion-active': OptionUploadText == 'contexto'}" (click)="selectOptionUploadText('contexto')">
+              <img src="https://i.imgur.com/dO7VdSV.png" alt="" *ngIf="OptionUploadText == 'contexto'">
+              <img src="https://i.imgur.com/DIUKKNl.png" alt="" *ngIf="OptionUploadText != 'contexto'">
+              <p>Contexto</p>
+            </button>
+            <button class="option-btn" [ngClass]="{'btn-opcion-active': OptionUploadText == 'pdf'}" (click)="selectOptionUploadText('pdf')">
+              <img src="https://i.imgur.com/Ajcf9EH.png" alt="" *ngIf="OptionUploadText == 'pdf'">
+              <img src="https://i.imgur.com/sah29w0.png" alt="" *ngIf="OptionUploadText != 'pdf'">
+              <p>PDF</p>
+            </button>
+          </div>
+        </div>
+        <div class="options-container">
+  
+          <div class="option" *ngIf="OptionUploadText == 'contexto'">
+            <div class="textarea">
+              <textarea [(ngModel)]="textInput" rows="10" cols="50"></textarea>
+            </div>
+          </div>
+  
+          <div class="option" *ngIf="OptionUploadText == 'pdf'">
+            <!-- Permite seleccionar varios archivos -->
+            <label class="custom-file-upload">
+              <img src="" alt="">
+              Seleccionar archivos
+              <input type="file" (change)="onFileSelected($event)" multiple />
+            </label>
+          
+            <div class="list-pdf">
+              <!-- Recorremos la lista de PDFs cargados -->
+              <div class="item" *ngFor="let pdf of pdfList; let i = index">
+                <img src="https://i.imgur.com/GHNgEGV.png" alt="Vista previa del PDF">
+                <!-- Se muestra el nombre del archivo como descripción -->
+                <p class="descripcion">{{ pdf.file.name }}</p>
+                <!-- Botón para remover el PDF de la lista -->
+                <button class="delete" (click)="removePdf(i)" title="Eliminar"><img src="https://i.imgur.com/5AADwaA.png" alt="Eliminar"></button>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        <div class="action-buttons">
+          <button class="btn-quizz" (click)="sendTextToAPI()">Quiz <img src="https://i.imgur.com/xUNtOsH.png" alt=""></button>
+          <!-- <button>Generera preguntas</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+  <div class="section-history">
+    <h1>Historial</h1>
+    <div class="history">
+      <ul class="history-list" *ngFor="let question of questionLocalStorage">
+        <li class="item" (click)="redirect(question.id)">
+          <p class="title">{{question['questions'][0].pregunta}}</p>
+          <p class="num-question">{{question['questions'].length}} pregunas</p>
+          <p class="time">{{ calculateQuizTime(question.timestamp) }}</p>
+          <button class="delete-btn" (click)="deleteQuiz(question.id, $event)">
+            <img src="https://i.imgur.com/5AADwaA.png" alt="Eliminar">
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

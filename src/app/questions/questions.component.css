@@ -1,0 +1,159 @@
+.quizz-container{
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: 
+  linear-gradient(to bottom, #ffffff00 0%, #f4f6f8 100%),
+  url("https://img.freepik.com/vector-gratis/gradiente-desenfoque-fondo-abstracto-azul-rosa_53876-117324.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.quizz-container .question{
+  width: 100%;
+  max-width: 700px;
+  padding: 40px;
+  border-radius: 20px;
+  background-color: #ffffff;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border: 7px solid white;
+}
+
+.quizz-container .question .bar-progres{
+  text-align: end;
+}
+
+.quizz-container .question .question-content h3{
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+
+.quizz-container .question .question-content  .options{
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.quizz-container .question .question-content .options button{
+  text-align: start;
+  padding: 20px;
+  border-radius: 10px;
+  border: 0 solid #e5e7eb;
+  background-color: #ffffff;
+  box-shadow: rgba(50, 50, 93, 0.137) 0px 2px 5px -1px, rgba(0, 0, 0, 0.121) 0px 1px 3px -1px;
+  font-size: 14px;
+}
+
+
+.quizz-container .question .question-content  .options  button:hover{
+  background-color: #f7f7fa;
+}
+
+
+.quizz-container .question .question-content  .options  button.correct {
+  background-color: #cbffcb;
+  color: black;
+}
+
+.quizz-container .question .question-content  .options  button.wrong {
+  background-color: #ffb1b1;
+  color: black;
+}
+
+
+.quizz-container .question   .btn-siguiente {
+  margin-top: 20px;
+  display: flex;
+  justify-content: end;
+}
+
+.quizz-container .question  .btn-siguiente .next{
+  background-color: #fa60ff;
+  padding: 10px 30px;
+  border-radius: 10px;
+  font-size: 16px;
+  color: #ffffff;
+  border: none;
+}
+
+
+.quizz-container .question .btn-siguiente .next:hover{
+  background-color: #e754ec;
+}
+
+
+
+.quizz-container .question .btn-siguiente .next:disabled {
+  opacity: 0.2; /* Hace el botón más transparente */
+  cursor: not-allowed; /* Cambia el cursor a "prohibido" */
+}
+
+
+
+
+
+
+.quizz-container .question .viewResults-container{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.quizz-container .question .viewResults-container .img img{
+  width: 50px;
+  height: 50px;
+}
+
+.quizz-container .question .viewResults-container h2{
+  font-size: 1.5rem;
+}
+
+
+
+.quizz-container .question .viewResults-container .puntuacion{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  color: #000000b5;
+}
+
+
+.quizz-container .question .viewResults-container  .btn-reiniciar-quiz button{
+ background-color: #e754ec;
+ color: #ffffff;
+ padding: 10px 30px;
+ border-radius: 10px;
+ border: none;
+ font-size: 18px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+  
+ 
+
+
+
+
+
+ 

@@ -1,0 +1,49 @@
+<div class="quizz-container" >
+  <div class="question">
+    <div *ngIf="!viewResults" class="bar-progres">
+      <p>{{currentQuestionIndex}}/{{numPreguntas}}</p>
+    </div>
+    <div class="question-content">
+      <h3>{{ displayedQuestion?.pregunta }}</h3>
+      <div class="options">
+        <button 
+          
+          *ngFor="let option of displayedQuestion?.options"
+          (click)="seleccionarRespuesta(option)"
+          [ngClass]="{
+            'correct': displayedQuestion?.selectedAnswer && option === displayedQuestion?.respuesta,
+            'wrong': displayedQuestion?.selectedAnswer === option && option !== displayedQuestion?.respuesta
+          }">
+          {{ option }}
+        </button>
+      </div>
+    </div>
+
+    <div class="btn-siguiente" *ngIf="!viewResults">
+      <button class="next"(click)="loadNextQuestion()" [disabled]="!this.displayedQuestion?.answered">Siguinte</button>
+    </div>
+
+    <div class="viewResults-container" *ngIf="viewResults">
+
+      <div class="img">
+        <img src="https://i.imgur.com/xyluHYJ.png" alt="">
+      </div>
+
+      <h2>Quiz Completado</h2>
+
+      <div class="puntuacion">
+        <p>Puntuaciòn</p>
+        <p>{{ obtenerResultados().correctas }} / {{ obtenerResultados().total }}</p>
+      </div>
+
+      <div class="btn-reiniciar-quiz">
+        <button (click)="redirectHome()">Generar Nuevo Quiz</button>
+      </div>
+      
+    </div>
+  </div>
+
+
+</div>
+
+
