@@ -59,8 +59,6 @@ export class HomeComponent implements OnInit{
   
   ngOnInit(): void {
    this.questionLocalStorage = this.getQuizzesFromLocalStorage()
-   console.log(this.questionLocalStorage)
-  //  this.sendMessage() 
   }
 
   generateQuizId(): string {
@@ -187,34 +185,15 @@ export class HomeComponent implements OnInit{
                           
                           `
 
-
-      // this.modelo.getCompletion(promt).subscribe(
-      //   (res) => {
-      //     // Imprimir la respuesta del modelo en la consola
-      //     console.log("Respuesta generada: ", res.choices[0].message.content);
-      //   },
-      //   (error) => {
-      //     console.error('Error en OpenRouter:', error);
-      //   }
-      // );
-
       const response = await this.modelo.getCompletion(promt).toPromise();
       let jsonString = response.choices[0].message.content;
 
       // Limpiar el string eliminando cualquier formato Markdown (como ```json al principio y al final)
       jsonString = jsonString.replace(/^```json|\n```$/g, '').trim();
-
       // Ahora puedes analizarlo como JSON
       const jsonData = JSON.parse(jsonString);
-
-      // Mostrar el objeto convertido
-      console.log(jsonData);
       let questions = this.transformData(jsonData)
-      console.log(this.questions)
-      // let a = this.transformData(jsonData)
-      console.log(questions)
       this.loading = false
-  
       // Verificar si se generaron preguntas y redirigir
       if (questions.length > 0) {
         const quizId = this.generateQuizId()
