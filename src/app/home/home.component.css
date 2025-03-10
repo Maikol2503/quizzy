@@ -121,7 +121,7 @@
 .quiz-input .quiz-input-wrapper .options-buttons .options-buttons-wrapper .option-btn{
     display: flex;
     align-items: center;
-    gap: px;
+    gap: 0px;
     border: none;
     background-color: #ffffff;
     padding: 6px 15px;
@@ -147,6 +147,8 @@
 
 .quiz-input .quiz-input-wrapper .options-container .option{
     margin-top: 20px;
+    display: flex;
+    flex-direction: column;
     height: 500px;
 }
 
@@ -180,8 +182,7 @@
   .custom-file-upload {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #9e77e7;
-    color: rgb(255, 255, 255);
+    width: 130px;
     font-size: 14px;
     font-weight: bold;
     border-radius:15px;
@@ -189,6 +190,19 @@
     text-align: center;
     transition: background 0.3s;
     margin-left: 20px;
+
+
+    margin-left: 0px;
+    font-size: 12px;
+    background-color: #e7e7e7;
+    color: black;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.custom-file-upload img{
+    width: 15px;
 }
 
 .custom-file-upload label{
@@ -235,19 +249,20 @@
     flex-direction: column;
     align-items: center;
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; */
+    
 }
 
 
 .quiz-input .quiz-input-wrapper .options-container .option .list-pdf .item img{
      width: 70%;
+     height: auto;
  }
 
  .quiz-input .quiz-input-wrapper .options-container .option .list-pdf .item .descripcion{
     color: #313131cf;
     font-size: 12px;
     margin-top: 20px;
-    max-width: 100%;
 }
 
 
@@ -415,8 +430,21 @@
 
 
 @media(max-width:500px) {
+    .quiz-container .quiz-header{
+        padding: 80px 15px 15px 15px;
+        /* background-image: 
+            linear-gradient(to bottom, #ffffff00 0%, #f4f6f8 100%),
+            url("https://img.freepik.com/vector-gratis/gradiente-desenfoque-fondo-abstracto-azul-rosa_53876-117324.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center; */
+        background-color: #e2beff;
+        background-image: none;
+        border-radius: 0px 0px 25px 25px;
+    }
     .quiz-container .quiz-header .quiz-header-content .quiz-title{
-        font-size: 1.8rem;
+        font-size: 2rem;
+        line-height: 2.5rem;
     }
 
     .quiz-container .quiz-header{
@@ -426,28 +454,89 @@
     .custom-file-upload {
         margin-left: 0px;
         font-size: 12px;
+        background-color: #e7e7e7;
+        float: right;
+        color: black;
+        display: flex;
+        gap: 5px;
+        align-items: center;
     }
 
+
+
     .quiz-container .quiz-header .quiz-header-content .quiz-description{
-        font-size: 0.8rem;
+        line-height: 1.25rem;
+        font-size: 1rem;
+        opacity: .8;
+        padding: 0px 20px;
     }
 
 
     .quiz-input .quiz-input-wrapper{
         padding: 10px;
         background-color: #ffffff;
+        margin: 0px;
+        margin-top: 50px;
+    }
 
+    .quiz-input .quiz-input-wrapper .options-container .option{
+        margin-top: 20px;
+        height: 400px;
     }
 
     .quiz-input .quiz-input-wrapper .options-container .option .textarea textarea{
         padding: 0px 10px 0px 0px;
-        background-color: #f7f8f9;
-        padding: 20px;
-        border-radius: 10px;
+        background-color: #f0f2f4;
+        padding: 15px;
+        border-radius: 15px;
+        line-height: 1.25rem;
+        font-size: 1rem;
+        color: #232529;
     }
 
-    .quiz-container .section-history {
+
+
+
+
+
+
+
+
+
+
+    .quiz-input .quiz-input-wrapper .options-container .option .list-pdf{
+        overflow-x: auto;
+        grid-template-columns: repeat(2, 1fr);
         padding: 10px;
+        margin-top: 10px;
+    }
+
+    .quiz-input .quiz-input-wrapper .options-container .option .list-pdf .item{
+       padding: 20px;
+    }
+
+    .quiz-input .quiz-input-wrapper .options-container .option .list-pdf .item img{
+        width: 50%;
+     }
+
+    .quiz-input .quiz-input-wrapper .options-container .option .list-pdf .item .descripcion{
+        font-size: 10px;
+     }
+    .quiz-input .action-buttons .btn-quizz{
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+
+
+
+
+
+
+    .quiz-container .section-history {
+        padding: 5px;
+        margin-top: 40px;
     }
 
     .quiz-container .section-history .history{
