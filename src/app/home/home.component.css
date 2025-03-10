@@ -416,11 +416,11 @@
 
 @media(max-width:500px) {
     .quiz-container .quiz-header .quiz-header-content .quiz-title{
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
 
     .quiz-container .quiz-header{
-        padding: 40px 10px 10px 10px;
+        padding: 40px 5px 5px 5px;
     }
 
     .custom-file-upload {
@@ -429,11 +429,21 @@
     }
 
     .quiz-container .quiz-header .quiz-header-content .quiz-description{
-        font-size: 1rem;
+        font-size: 0.8rem;
+    }
+
+
+    .quiz-input .quiz-input-wrapper{
+        padding: 10px;
+        background-color: #ffffff;
+
     }
 
     .quiz-input .quiz-input-wrapper .options-container .option .textarea textarea{
         padding: 0px 10px 0px 0px;
+        background-color: #f7f8f9;
+        padding: 20px;
+        border-radius: 10px;
     }
 
     .quiz-container .section-history {
