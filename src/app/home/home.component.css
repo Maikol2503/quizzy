@@ -451,6 +451,8 @@
         padding: 40px 5px 5px 5px;
     }
 
+    
+
     .custom-file-upload {
         margin-left: 0px;
         font-size: 12px;
@@ -479,10 +481,16 @@
         margin-top: 50px;
     }
 
+    .quiz-input .quiz-input-wrapper .loader-container{
+        /* border: 3px solid red; */
+        
+    }
+
     .quiz-input .quiz-input-wrapper .options-container .option{
         margin-top: 20px;
         height: 400px;
     }
+
 
     .quiz-input .quiz-input-wrapper .options-container .option .textarea textarea{
         padding: 0px 10px 0px 0px;

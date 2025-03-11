@@ -15,6 +15,8 @@ interface Question {
   options?: any; // Se generarán dinámicamente
   answered?: number; // Controla si ya se respondió la pregunta
   selectedAnswer?: string;
+  explicacion:string;
+  acerto:number;
 }
 
 @Component({
@@ -30,13 +32,14 @@ export class QuestionsComponent implements OnInit{
   textoRecibido: any;
   loading: boolean = false;
   viewResults:boolean = false
+  viewExplanation:boolean = false
   displayedQuestions: Question[] = [];
   currentQuestionIndex = 0;
   displayedQuestion?: Question;
   questions: Question[] = []
   quizId: string | null = null;
   numPreguntas = 1
-
+  match:boolean=false;
   ngOnInit(): void {
 
 
@@ -102,6 +105,7 @@ export class QuestionsComponent implements OnInit{
   loadNextQuestion() {
     if (this.currentQuestionIndex < this.questions.length) {
       this.displayedQuestion = this.questions[this.currentQuestionIndex];
+      this.viewExplanation = false;
     } else {
       this.displayedQuestion = undefined; // No más preguntas
       this.viewResults = true
@@ -115,11 +119,11 @@ export class QuestionsComponent implements OnInit{
     if (!this.displayedQuestion || this.displayedQuestion.selectedAnswer) return;
     this.displayedQuestion.selectedAnswer = option;
     this.displayedQuestion.answered = 1;
-
-    this.updateQuizLocalstorage(option, 1)
+    this.displayedQuestion.acerto = option === this.displayedQuestion.respuesta ? 1 : 0; 
+    this.updateQuizLocalstorage(option, 1, this.displayedQuestion.acerto)
   }
 
-  updateQuizLocalstorage(option:string, answered:number){
+  updateQuizLocalstorage(option:string, answered:number, acerto:number){
     const storedQuizzes = localStorage.getItem('quizzes');
     if (storedQuizzes) {
       let quizzes = JSON.parse(storedQuizzes);
@@ -132,6 +136,7 @@ export class QuestionsComponent implements OnInit{
         if (questionIndex !== -1) {
           quizzes[quizIndex].questions[questionIndex].selectedAnswer = option;
           quizzes[quizIndex].questions[questionIndex].answered = answered;
+          quizzes[quizIndex].questions[questionIndex].acerto = acerto;
         }
 
         // Guardar el quiz actualizado en `localStorage`

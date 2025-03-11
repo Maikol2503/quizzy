@@ -19,6 +19,8 @@ interface Question {
     options?: any;
     answered: number;
     selectedAnswer?: string;
+    explicacion:string;
+    acerto:number;
   }[];
 }
 
@@ -158,36 +160,40 @@ export class HomeComponent implements OnInit{
       
       }
 
-    let promt = `
+      let prompt = `
       Genera 10 preguntas basadas en el siguiente texto, cumpliendo estrictamente estas instrucciones:
-                          - La pregunta debe estar basada exclusivamente en el texto proporcionado.
-                          - Devuelve únicamente un objeto JSON válido, sin ningún texto adicional.
-                          - Debe generarse exactamente **10** preguntas.
-                          - Cada pregunta debe incluir una única respuesta correcta.
-                          - Cada pregunta debe incluir exactamente tres respuestas incorrectas.
-                          - El objeto JSON debe seguir exactamente esta estructura:
-  
-                          [
-                          {
-                              "pregunta": "¿Pregunta?",
-                              "respuesta_correcta": "Respuesta",
-                              "respuestas_incorrectas": ["Incorrecta", "Incorrecta", "Incorrecta"]
-                          },
-                          ...
-                          ]
-  
-                          Asegúrate de que:
-                          - Se utilicen correctamente las comillas y comas propias del JSON.
-                          - Se generen exactamente **dos preguntas**.
-                          - No se incluya texto adicional fuera del JSON.
-  
-                          Texto base: ${texto} 
-                          
-                          `
+      
+      - La pregunta debe estar basada exclusivamente en el texto proporcionado.
+      - Devuelve únicamente un objeto JSON válido, sin ningún texto adicional.
+      - Debe generarse exactamente **10** preguntas.
+      - Cada pregunta debe incluir:
+        - Una única respuesta correcta.
+        - Exactamente tres respuestas incorrectas.
+        - Una breve explicación de la respuesta correcta.
+      - El objeto JSON debe seguir exactamente esta estructura:
+      
+      [
+        {
+          "pregunta": "¿Pregunta?",
+          "respuesta_correcta": "Respuesta",
+          "respuestas_incorrectas": ["Incorrecta", "Incorrecta", "Incorrecta"],
+          "explicacion": "Breve explicación de la respuesta correcta"
+        },
+        ...
+      ]
+      
+      Asegúrate de que:
+      - Se utilicen correctamente las comillas y comas propias del JSON.
+      - Se generen exactamente **10 preguntas**.
+      - No se incluya texto adicional fuera del JSON.
+      
+      Texto base: ${texto} 
+      `;
+      
 
-      const response = await this.modelo.getCompletion(promt).toPromise();
+      const response = await this.modelo.getCompletion(prompt).toPromise();
       let jsonString = response.choices[0].message.content;
-
+      
       // Limpiar el string eliminando cualquier formato Markdown (como ```json al principio y al final)
       jsonString = jsonString.replace(/^```json|\n```$/g, '').trim();
       // Ahora puedes analizarlo como JSON
@@ -198,6 +204,7 @@ export class HomeComponent implements OnInit{
       if (questions.length > 0) {
         const quizId = this.generateQuizId()
         this.addQuizToLocalStorage(quizId, questions)
+        console.log(questions)
         this.redirect(quizId);
       } else {
         alert('No se generaron preguntas. Verifica el texto de entrada.');
@@ -233,6 +240,8 @@ export class HomeComponent implements OnInit{
           options: opcionesMezcladas,  // Usamos el array mezclado
           pregunta: element.pregunta,
           respuesta: element.respuesta_correcta,
+          explicacion: element.explicacion,
+          acerto:0,
           selectedAnswer: "",
         };
   

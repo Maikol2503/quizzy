@@ -12,6 +12,20 @@
   background-position: center;
 }
 
+.quizz-container .close{
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  border: none;
+  background-color: #00000000;
+  font-size: 15px;
+  z-index: 1000;
+  cursor: pointer;
+  /* top: 0px; */
+  
+}
+
+
 .quizz-container .question{
   position: relative;
   width: 100%;
@@ -23,14 +37,37 @@
   border: 7px solid white;
 }
 
-.quizz-container .question .close{
-  position: absolute;
+.quizz-container .question .explanation-container{
+  margin-top: 20px;
+}
+
+.quizz-container .question .explanation-container .btn-volver{
   border: none;
   background-color: #00000000;
-  font-size: 15px;
-  /* top: 0px; */
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #777777;
+  font-weight: 600;
+  cursor: pointer;
   
 }
+
+.quizz-container .question .explanation-container .btn-volver:hover{
+  color: #383838;
+}
+
+.quizz-container .question .explanation-container .btn-volver img{
+  width: 20px;
+}
+
+
+.quizz-container .question .explanation-container p{
+  margin-top: 20px;
+}
+
+
+
 
 .quizz-container .question .bar-progres{
   text-align: end;
@@ -80,8 +117,7 @@
 
 .quizz-container .question   .btn-siguiente {
   margin-top: 20px;
-  display: flex;
-  justify-content: end;
+ 
 }
 
 .quizz-container .question  .btn-siguiente .next{
@@ -140,6 +176,31 @@
   color: #000000b5;
 }
 
+
+.quizz-container .question .actions-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.quizz-container .question .actions-container .btn-explanation{
+  color: #b7b7b7;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  background-color: #00000000;
+  margin-top: 7px;
+  margin-left: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.quizz-container .question .actions-container .btn-explanation img{
+  width: 13px;
+}
 
 .quizz-container .question .viewResults-container  .btn-reiniciar-quiz button{
  background-color: #9e77e7;
