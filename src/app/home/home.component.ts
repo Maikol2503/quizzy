@@ -161,34 +161,38 @@ export class HomeComponent implements OnInit{
       }
 
       let prompt = `
-      Genera 10 preguntas basadas en el siguiente texto, cumpliendo estrictamente estas instrucciones:
-      
-      - La pregunta debe estar basada exclusivamente en el texto proporcionado.
-      - Devuelve únicamente un objeto JSON válido, sin ningún texto adicional.
-      - Debe generarse exactamente **10** preguntas.
-      - Cada pregunta debe incluir:
-        - Una única respuesta correcta.
-        - Exactamente tres respuestas incorrectas.
-        - Una breve explicación de la respuesta correcta.
-      - El objeto JSON debe seguir exactamente esta estructura:
-      
-      [
-        {
-          "pregunta": "¿Pregunta?",
-          "respuesta_correcta": "Respuesta",
-          "respuestas_incorrectas": ["Incorrecta", "Incorrecta", "Incorrecta"],
-          "explicacion": "Breve explicación de la respuesta correcta"
-        },
-        ...
-      ]
-      
-      Asegúrate de que:
-      - Se utilicen correctamente las comillas y comas propias del JSON.
-      - Se generen exactamente **10 preguntas**.
-      - No se incluya texto adicional fuera del JSON.
-      
-      Texto base: ${texto} 
-      `;
+Genera 10 preguntas basadas en el siguiente texto, cumpliendo estrictamente las siguientes instrucciones:
+
+- La pregunta debe estar basada exclusivamente en el texto proporcionado.
+- Devuelve únicamente un objeto JSON válido, sin ningún texto adicional.
+- Debe generarse exactamente **10** preguntas.
+- Cada pregunta debe incluir:
+  - Una única respuesta correcta.
+  - Exactamente tres respuestas incorrectas.
+  - Una explicación detallada de la respuesta correcta que permita al usuario comprender:
+    - **Por qué** esa respuesta es la correcta.
+    - **Cómo** se relaciona con el contenido del texto.
+    - **Qué conceptos** o información clave del texto la sustentan.
+- El objeto JSON debe seguir exactamente esta estructura:
+
+[
+  {
+    "pregunta": "¿Pregunta?",
+    "respuesta_correcta": "Respuesta correcta",
+    "respuestas_incorrectas": ["Respuesta incorrecta 1", "Respuesta incorrecta 2", "Respuesta incorrecta 3"],
+    "explicacion": "Explicación detallada de por qué la respuesta correcta es la adecuada, relacionándola con el texto base."
+  },
+  ...
+]
+
+Asegúrate de:
+- Utilizar correctamente las comillas y comas propias del JSON.
+- Generar exactamente **10** preguntas.
+- No incluir texto adicional fuera del JSON.
+
+Texto base: ${texto}
+`;
+
       
 
       const response = await this.modelo.getCompletion(prompt).toPromise();
