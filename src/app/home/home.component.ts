@@ -40,8 +40,8 @@ export class HomeComponent implements OnInit{
   questionLocalStorage:any = []
   data:any = []
   newQuizId:string = ""
-
-  
+  viewContenedorCofigGenQuiz:boolean = false
+  numPreguntas: number = 10;
 
 
 
@@ -152,6 +152,7 @@ export class HomeComponent implements OnInit{
     let data:any = {}
     if (this.textInput.trim() || this.textPdf.trim()) {
       this.loading = true;
+      this.viewContenedorCofigGenQuiz = false
       let texto:any = "";
       if (this.OptionUploadText === 'contexto') {
         texto = this.textInput
@@ -160,12 +161,14 @@ export class HomeComponent implements OnInit{
       
       }
 
+      console.log(this.numPreguntas)
+
       let prompt = `
-Genera 10 preguntas basadas en el siguiente texto, cumpliendo estrictamente las siguientes instrucciones:
+Genera ${this.numPreguntas} preguntas basadas en el siguiente texto, cumpliendo estrictamente las siguientes instrucciones:
 
 - La pregunta debe estar basada exclusivamente en el texto proporcionado.
 - Devuelve únicamente un objeto JSON válido, sin ningún texto adicional.
-- Debe generarse exactamente **10** preguntas.
+- Debe generarse exactamente **${this.numPreguntas}** preguntas.
 - Cada pregunta debe incluir:
   - Una única respuesta correcta.
   - Exactamente tres respuestas incorrectas.
