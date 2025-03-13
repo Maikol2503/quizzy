@@ -156,63 +156,67 @@ export class HomeComponent implements OnInit{
     this.viewContenedorCofigGenQuiz = false;
     
     let texto = this.OptionUploadText === 'contexto' ? this.textInput : this.pdfList.map(pdf => pdf.text).join('\n');
-  
+
     while (preguntasGeneradas.length < totalPreguntas) {
-      let faltan = totalPreguntas - preguntasGeneradas.length;
-  
-      let prompt = `
-  Genera ${faltan} preguntas únicas basadas en el siguiente texto:
-  
-  - No repitas preguntas ya generadas.
-  - Devuelve exclusivamente un objeto JSON válido, sin texto adicional.
-  - Genera exactamente ${faltan} preguntas nuevas.
-  - Cada pregunta debe incluir:
-    - Una única respuesta correcta.
-    - Exactamente tres respuestas incorrectas.
-    - Una explicación detallada.
-  
-  Formato JSON esperado:
-  
-  [
-    {
-      "pregunta": "Pregunta",
-      "respuesta_correcta": "Respuesta correcta",
-      "respuestas_incorrectas": ["Incorrecta 1", "Incorrecta 2", "Incorrecta 3"],
-      "explicacion": "Explicación detallada de por qué la respuesta correcta es la adecuada, relacionándola con el texto base."
-    }
-  ]
-  
-  Texto base: ${texto}
-  Preguntas ya generadas:
-  ${JSON.stringify(preguntasGeneradas.map(p => p.pregunta))}
-      `;
-  
-      const response = await this.modelo.getCompletion(prompt).toPromise();
-      let jsonString = response.choices[0].message.content.trim();
-  
-      jsonString = jsonString.replace(/^```json|\n```$/g, '').trim();
-      
-      let nuevasPreguntas = JSON.parse(jsonString);
-  
-      // Filtrar preguntas repetidas
-      nuevasPreguntas = nuevasPreguntas.filter((nueva:any) => 
-        !preguntasGeneradas.some(existente => existente.pregunta === nueva.pregunta)
-      );
-  
-      preguntasGeneradas = [...preguntasGeneradas, ...nuevasPreguntas];
-    }
-  
-    this.loading = false;
-  
-    if (preguntasGeneradas.length > 0) {
-      const quizId = this.generateQuizId();
-      this.addQuizToLocalStorage(quizId, this.transformData(preguntasGeneradas));
-      this.redirect(quizId);
-    } else {
-      alert('No se generaron suficientes preguntas. Inténtalo de nuevo.');
-    }
+        let faltan = totalPreguntas - preguntasGeneradas.length;
+
+        let prompt = `
+Genera ${faltan} preguntas únicas basadas en el siguiente texto:
+
+- No repitas preguntas ya generadas.
+- Devuelve exclusivamente un JSON válido, sin texto adicional ni explicaciones fuera del formato JSON.
+- Cada pregunta debe incluir:
+  - Una única respuesta correcta.
+  - Exactamente tres respuestas incorrectas.
+  - Una explicación detallada.
+
+Formato JSON esperado:
+[
+  {
+    "pregunta": "Pregunta",
+    "respuesta_correcta": "Respuesta correcta",
+    "respuestas_incorrectas": ["Incorrecta 1", "Incorrecta 2", "Incorrecta 3"],
+    "explicacion": "Explicación detallada basada en el texto."
   }
-  
+]
+
+Texto base: ${texto}
+Preguntas ya generadas:
+${JSON.stringify(preguntasGeneradas.map(p => p.pregunta))}
+        `;
+
+        const response = await this.modelo.getCompletion(prompt).toPromise();
+        let jsonString = response.choices[0].message.content.trim();
+
+        // ✅ Limpieza del JSON antes de parsear
+        jsonString = jsonString.replace(/^```json|```$/g, '').trim();
+        jsonString = jsonString.replace(/(\w+):/g, '"$1":');  // Asegurar comillas en claves
+
+        try {
+            let nuevasPreguntas = JSON.parse(jsonString);
+
+            // Filtrar preguntas repetidas
+            nuevasPreguntas = nuevasPreguntas.filter((nueva:any) => 
+                !preguntasGeneradas.some(existente => existente.pregunta === nueva.pregunta)
+            );
+
+            preguntasGeneradas = [...preguntasGeneradas, ...nuevasPreguntas];
+        } catch (error) {
+            console.error("Error al parsear JSON:", error);
+        }
+    }
+
+    this.loading = false;
+
+    if (preguntasGeneradas.length > 0) {
+        const quizId = this.generateQuizId();
+        this.addQuizToLocalStorage(quizId, this.transformData(preguntasGeneradas));
+        this.redirect(quizId);
+    } else {
+        alert('No se generaron suficientes preguntas. Inténtalo de nuevo.');
+    }
+}
+
 
   transformData(data: any) {
     let dataTranformada: any[] = [];
