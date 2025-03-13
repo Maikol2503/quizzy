@@ -178,7 +178,7 @@ export class HomeComponent implements OnInit{
       "pregunta": "Pregunta",
       "respuesta_correcta": "Respuesta correcta",
       "respuestas_incorrectas": ["Incorrecta 1", "Incorrecta 2", "Incorrecta 3"],
-      "explicacion": "Explicación detallada."
+      "explicacion": "Explicación detallada de por qué la respuesta correcta es la adecuada, relacionándola con el texto base."
     }
   ]
   
