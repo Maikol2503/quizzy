@@ -27,7 +27,7 @@
       </div> -->
       <div class="campo-num-preguntas">
           <label for="numpreguntas">Número de preguntas: {{ numPreguntas }}</label>
-          <input type="range" id="rango-preguntas" min="1" max="19" [(ngModel)]="numPreguntas">
+          <input type="range" id="rango-preguntas" min="1" max="30" [(ngModel)]="numPreguntas">
       </div>
       <div class="boton-generar">
           <button class="btn-quizz" (click)="sendTextToAPI()">Generar preguntas <img src="https://i.imgur.com/xUNtOsH.png" alt=""></button>

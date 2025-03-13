@@ -149,78 +149,70 @@ export class HomeComponent implements OnInit{
   }
   
   async sendTextToAPI(): Promise<void> {
-    let data:any = {}
-    if (this.textInput.trim() || this.textPdf.trim()) {
-      this.loading = true;
-      this.viewContenedorCofigGenQuiz = false
-      let texto:any = "";
-      if (this.OptionUploadText === 'contexto') {
-        texto = this.textInput
-      } else if (this.OptionUploadText === 'pdf') {
-        texto = this.pdfList.map(pdf => pdf.text).join('\n')
-      
-      }
-
-      console.log(this.numPreguntas)
-
+    let totalPreguntas = this.numPreguntas;
+    let preguntasGeneradas: any[] = [];
+    
+    this.loading = true;
+    this.viewContenedorCofigGenQuiz = false;
+    
+    let texto = this.OptionUploadText === 'contexto' ? this.textInput : this.pdfList.map(pdf => pdf.text).join('\n');
+  
+    while (preguntasGeneradas.length < totalPreguntas) {
+      let faltan = totalPreguntas - preguntasGeneradas.length;
+  
       let prompt = `
-Genera ${this.numPreguntas} preguntas basadas en el siguiente texto, cumpliendo estrictamente las siguientes instrucciones:
-
-- La pregunta debe estar basada exclusivamente en el texto proporcionado.
-- Devuelve únicamente un objeto JSON válido, sin ningún texto adicional.
-- Debe generarse exactamente **${this.numPreguntas}** preguntas.
-- Cada pregunta debe incluir:
-  - Una única respuesta correcta.
-  - Exactamente tres respuestas incorrectas.
-  - Una explicación detallada de la respuesta correcta que permita al usuario comprender:
-    - **Por qué** esa respuesta es la correcta.
-    - **Cómo** se relaciona con el contenido del texto.
-    - **Qué conceptos** o información clave del texto la sustentan.
-- El objeto JSON debe seguir exactamente esta estructura:
-
-[
-  {
-    "pregunta": "¿Pregunta?",
-    "respuesta_correcta": "Respuesta correcta",
-    "respuestas_incorrectas": ["Respuesta incorrecta 1", "Respuesta incorrecta 2", "Respuesta incorrecta 3"],
-    "explicacion": "Explicación detallada de por qué la respuesta correcta es la adecuada, relacionándola con el texto base."
-  },
-  ...
-]
-
-Asegúrate de:
-- Utilizar correctamente las comillas y comas propias del JSON.
-- Generar exactamente **10** preguntas.
-- No incluir texto adicional fuera del JSON.
-
-Texto base: ${texto}
-`;
-
-      
-
+  Genera ${faltan} preguntas únicas basadas en el siguiente texto:
+  
+  - No repitas preguntas ya generadas.
+  - Devuelve exclusivamente un objeto JSON válido, sin texto adicional.
+  - Genera exactamente ${faltan} preguntas nuevas.
+  - Cada pregunta debe incluir:
+    - Una única respuesta correcta.
+    - Exactamente tres respuestas incorrectas.
+    - Una explicación detallada.
+  
+  Formato JSON esperado:
+  
+  [
+    {
+      "pregunta": "Pregunta",
+      "respuesta_correcta": "Respuesta correcta",
+      "respuestas_incorrectas": ["Incorrecta 1", "Incorrecta 2", "Incorrecta 3"],
+      "explicacion": "Explicación detallada."
+    }
+  ]
+  
+  Texto base: ${texto}
+  Preguntas ya generadas:
+  ${JSON.stringify(preguntasGeneradas.map(p => p.pregunta))}
+      `;
+  
       const response = await this.modelo.getCompletion(prompt).toPromise();
-      let jsonString = response.choices[0].message.content;
-      
-      // Limpiar el string eliminando cualquier formato Markdown (como ```json al principio y al final)
+      let jsonString = response.choices[0].message.content.trim();
+  
       jsonString = jsonString.replace(/^```json|\n```$/g, '').trim();
-      // Ahora puedes analizarlo como JSON
-      const jsonData = JSON.parse(jsonString);
-      let questions = this.transformData(jsonData)
-      this.loading = false
-      // Verificar si se generaron preguntas y redirigir
-      if (questions.length > 0) {
-        const quizId = this.generateQuizId()
-        this.addQuizToLocalStorage(quizId, questions)
-        console.log(questions)
-        this.redirect(quizId);
-      } else {
-        alert('No se generaron preguntas. Verifica el texto de entrada.');
-      }
+      
+      let nuevasPreguntas = JSON.parse(jsonString);
+  
+      // Filtrar preguntas repetidas
+      nuevasPreguntas = nuevasPreguntas.filter((nueva:any) => 
+        !preguntasGeneradas.some(existente => existente.pregunta === nueva.pregunta)
+      );
+  
+      preguntasGeneradas = [...preguntasGeneradas, ...nuevasPreguntas];
+    }
+  
+    this.loading = false;
+  
+    if (preguntasGeneradas.length > 0) {
+      const quizId = this.generateQuizId();
+      this.addQuizToLocalStorage(quizId, this.transformData(preguntasGeneradas));
+      this.redirect(quizId);
     } else {
-      alert('Por favor, carga un archivo PDF primero.');
+      alert('No se generaron suficientes preguntas. Inténtalo de nuevo.');
     }
   }
-
+  
 
   transformData(data: any) {
     let dataTranformada: any[] = [];
