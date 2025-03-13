@@ -200,6 +200,11 @@ ${JSON.stringify(preguntasGeneradas.map(p => p.pregunta))}
                 !preguntasGeneradas.some(existente => existente.pregunta === nueva.pregunta)
             );
 
+            // ❗ Asegurar que solo agregamos las preguntas necesarias
+            if (preguntasGeneradas.length + nuevasPreguntas.length > totalPreguntas) {
+                nuevasPreguntas = nuevasPreguntas.slice(0, totalPreguntas - preguntasGeneradas.length);
+            }
+
             preguntasGeneradas = [...preguntasGeneradas, ...nuevasPreguntas];
         } catch (error) {
             console.error("Error al parsear JSON:", error);
@@ -216,6 +221,7 @@ ${JSON.stringify(preguntasGeneradas.map(p => p.pregunta))}
         alert('No se generaron suficientes preguntas. Inténtalo de nuevo.');
     }
 }
+
 
 
   transformData(data: any) {
