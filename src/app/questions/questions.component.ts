@@ -40,6 +40,7 @@ export class QuestionsComponent implements OnInit{
   quizId: string | null = null;
   numPreguntas = 1
   match:boolean=false;
+  viewSummaryActivate:boolean=false;
   ngOnInit(): void {
 
 
@@ -62,16 +63,6 @@ export class QuestionsComponent implements OnInit{
         console.warn("No se proporcionó un ID en la URL.");
       }
     });
-    
-    
-    
-   
-
-
-    
-    
-    
-
   }
 
 
@@ -104,6 +95,7 @@ export class QuestionsComponent implements OnInit{
       
     }
     this.currentQuestionIndex++;
+    console.log(this.questions)
   }
   
 

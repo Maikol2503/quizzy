@@ -60,7 +60,8 @@ export class HomeComponent implements OnInit{
 
   
   ngOnInit(): void {
-   this.questionLocalStorage = this.getQuizzesFromLocalStorage()
+    this.questionLocalStorage = this.getQuizzesFromLocalStorage() || [];
+    console.log("Historial cargado:", this.questionLocalStorage); // <-- Verifica en la consola
   }
 
   generateQuizId(): string {
@@ -186,6 +187,13 @@ ${JSON.stringify(preguntasGeneradas.map(p => p.pregunta))}
         `;
 
         const response = await this.modelo.getCompletion(prompt).toPromise();
+        
+        if (!response || !response.choices || response.choices.length === 0) {
+            console.error("Error: La API no devolvió una respuesta válida.", response);
+            this.loading = false;
+            alert("Hubo un problema al generar las preguntas. Inténtalo de nuevo.");
+            return;
+        }
         let jsonString = response.choices[0].message.content.trim();
 
         // ✅ Limpieza del JSON antes de parsear

@@ -3,28 +3,7 @@
   <div class="contenedor-config-generate-quiz" *ngIf="viewContenedorCofigGenQuiz" > 
     <div class="contenido-config-generate-quiz">
       <img (click)="viewContenedorCofigGenQuiz=false" class="cerrar" src="https://i.imgur.com/0GevfGK.png" alt="">
-      <!-- <ul class="tipo-pregunta">
-          <li class="opcion"><img src="" alt="">Opción Múltiple</li>
-          <li class="opcion"><img src="" alt="">Verdadero o falso</li>
-          <li class="opcion"><img src="" alt="">Respuesta Corta</li>
-          <li class="opcion"><img src="" alt="">Rellenar el espacio en blanco</li>
-      </ul>
-      <div class="campo-seleccion">
-          <label for="idioma">Idioma</label>
-          <select name="idioma" id="idioma">
-              <option value="espanol">Español</option>
-              <option value="ingles">Inglés</option>
-          </select>
-      </div>
-      <div class="campo-seleccion">
-          <label for="opciones">Opciones</label>
-          <select name="opciones" id="opciones">
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-          </select>
-      </div> -->
+      
       <div class="campo-num-preguntas">
           <label for="numpreguntas">Número de preguntas: {{ numPreguntas }}</label>
           <input type="range" id="rango-preguntas" min="1" max="30" [(ngModel)]="numPreguntas">
@@ -58,15 +37,15 @@
         <div class="quiz-options" *ngIf="!loading">
           <div class="options-buttons">
             <div class="options-buttons-wrapper">
-              <button class="option-btn" [ngClass]="{'btn-opcion-active': OptionUploadText == 'contexto'}" (click)="selectOptionUploadText('contexto')">
-                <img src="https://i.imgur.com/dO7VdSV.png" alt="" *ngIf="OptionUploadText == 'contexto'">
-                <img src="https://i.imgur.com/DIUKKNl.png" alt="" *ngIf="OptionUploadText != 'contexto'">
-                <p>Contexto</p>
-              </button>
               <button class="option-btn" [ngClass]="{'btn-opcion-active': OptionUploadText == 'pdf'}" (click)="selectOptionUploadText('pdf')">
                 <img src="https://i.imgur.com/Ajcf9EH.png" alt="" *ngIf="OptionUploadText == 'pdf'">
                 <img src="https://i.imgur.com/sah29w0.png" alt="" *ngIf="OptionUploadText != 'pdf'">
                 <p>PDF</p>
+              </button>
+              <button class="option-btn" [ngClass]="{'btn-opcion-active': OptionUploadText == 'contexto'}" (click)="selectOptionUploadText('contexto')">
+                <img src="https://i.imgur.com/dO7VdSV.png" alt="" *ngIf="OptionUploadText == 'contexto'">
+                <img src="https://i.imgur.com/DIUKKNl.png" alt="" *ngIf="OptionUploadText != 'contexto'">
+                <p>Contexto</p>
               </button>
             </div>
           </div>
@@ -118,7 +97,9 @@
     <div class="history">
       <ul class="history-list" *ngFor="let question of questionLocalStorage">
         <li class="item" (click)="redirect(question.id)">
-          <p class="title">{{question['questions'][0].pregunta}}</p>
+          <p class="title" *ngIf="question.questions && question.questions.length > 0">
+            {{ question.questions[0].pregunta }}
+          </p>
           <p class="num-question">{{question['questions'].length}} pregunas</p>
           <p class="time">{{ calculateQuizTime(question.timestamp) }}</p>
           <button class="delete-btn" (click)="deleteQuiz(question.id, $event)">

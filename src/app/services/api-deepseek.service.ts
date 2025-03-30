@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 })
 export class ApiModel {
   private  baseURL = environment.openRouterBaseUrl;
-  private  apiKey = environment.openRouterApiKey;
+  private  apiKey = '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';
 
   constructor(private http: HttpClient) {}
 
@@ -22,7 +22,7 @@ export class ApiModel {
   }
 
   // Aquí el parámetro 'prompt' ahora es dinámico.
-  getCompletion(prompt: string, model: string = "google/gemini-2.0-flash-lite-preview-02-05:free"): Observable<any> {
+  getCompletion(prompt: string, model: string = "meta-llama/llama-3.3-70b-instruct:free"): Observable<any> {
     const body = {
       model,
       messages: [{ role: 'user', content: prompt }],
@@ -32,7 +32,7 @@ export class ApiModel {
   }
 
   // La función de 'streaming' sigue igual, pero puedes ajustar 'prompt' aquí también si lo deseas.
-  async getStreamingCompletion(prompt: string, model: string = "google/gemini-2.0-flash-lite-preview-02-05:free"): Promise<void> {
+  async getStreamingCompletion(prompt: string, model: string = "meta-llama/llama-3.3-70b-instruct:free"): Promise<void> {
     const response = await fetch(`${this.baseURL}/chat/completions`, {
       method: 'POST',
       headers: {
